@@ -84,13 +84,12 @@ def text_preprocessing(text):
 def predict_spam(request):
     # print('in server')
     email = request.data['email']
-    print(email)
     # return Response({"data":"Hi"})
 
     # data = request.get_json()
     # email = data.get('message', '')
     # print(email)
-    # email=[email]
+    # email = [email]
     lower_email = lower_case(email)
     square_email = remove_square_brackets(lower_email)
     user_email = remove_username(square_email)
@@ -105,4 +104,8 @@ def predict_spam(request):
     output = model.predict(vector_input)
     print(output)
     # return Response({"data":"Hi"})
-    return Response({output})
+
+    if output == [0]:
+        return Response({"val": True})
+    else:
+        return Response({"val": False})
